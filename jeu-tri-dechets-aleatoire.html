@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeu de tri des déchets</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f7fa;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .dechets, .poubelles {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    .dechet, .poubelle {
+      width: 100px;
+      height: 100px;
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      cursor: grab;
+      font-size: 40px;
+    }
+    .poubelle {
+      font-size: 26px;
+      flex-direction: column;
+      background-color: #b2dfdb;
+      padding: 5px;
+    }
+    .poubelle.over {
+      border-color: green;
+    }
+    .label {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🗑️ Trie les déchets dans la bonne poubelle !</h1>
+  <div class="dechets" id="zone-dechets">
+    <div class="dechet" draggable="true" data-type="papier">📰</div>
+    <div class="dechet" draggable="true" data-type="compost">🍌</div>
+    <div class="dechet" draggable="true" data-type="verre">🍾</div>
+    <div class="dechet" draggable="true" data-type="metal">🥫</div>
+    <div class="dechet" draggable="true" data-type="tech">📱</div>
+  </div>
+
+  <div class="poubelles">
+    <div class="poubelle" data-type="papier"><div>🟨</div><div class="label">Papier</div></div>
+    <div class="poubelle" data-type="verre"><div>🟩</div><div class="label">Verre</div></div>
+    <div class="poubelle" data-type="compost"><div>🟫</div><div class="label">Compost</div></div>
+    <div class="poubelle" data-type="metal"><div>⬛</div><div class="label">Métal</div></div>
+    <div class="poubelle" data-type="tech"><div>🟥</div><div class="label">Technologie</div></div>
+  </div>
+
+  <script>
+    const dechets = document.querySelectorAll('.dechet');
+    const poubelles = document.querySelectorAll('.poubelle');
+
+    // Mélanger les déchets
+    const zoneDechets = document.getElementById("zone-dechets");
+    const shuffled = Array.from(dechets).sort(() => Math.random() - 0.5);
+    shuffled.forEach(d => zoneDechets.appendChild(d));
+
+    dechets.forEach(dechet => {
+      dechet.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', dechet.dataset.type);
+        e.dataTransfer.setDragImage(dechet, 50, 50);
+      });
+    });
+
+    poubelles.forEach(poubelle => {
+      poubelle.addEventListener('dragover', e => {
+        e.preventDefault();
+        poubelle.classList.add('over');
+      });
+
+      poubelle.addEventListener('dragleave', () => {
+        poubelle.classList.remove('over');
+      });
+
+      poubelle.addEventListener('drop', e => {
+        e.preventDefault();
+        const type = e.dataTransfer.getData('text/plain');
+        if (type === poubelle.dataset.type) {
+          alert('✅ Bien trié !');
+        } else {
+          alert('❌ Mauvaise poubelle !');
+        }
+        poubelle.classList.remove('over');
+      });
+    });
+  </script>
+</body>
+</html>
