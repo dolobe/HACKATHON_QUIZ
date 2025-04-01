@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz : Pollution plastique</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      backdrop-filter: brightness(0.8);
+    }
+    .question {
+      margin-bottom: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .answers button {
+      display: block;
+      margin: 5px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #ffffffcc;
+      color: #000;
+    }
+    .correct {
+      background-color: #a5d6a7 !important;
+    }
+    .incorrect {
+      background-color: #ef9a9a !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz : Lutte contre la pollution plastique</h1>
+  <div id="quiz"></div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Quelle est la principale source de pollution plastique dans les océans ?",
+        options: ["Les filets de pêche", "Les sacs plastiques", "Les pailles", "Les bouteilles d'eau"],
+        answer: 1
+      },
+      {
+        question: "Combien de tonnes de plastique finissent chaque année dans les océans ?",
+        options: ["1 million", "5 millions", "8 millions", "15 millions"],
+        answer: 2
+      },
+      {
+        question: "Combien de temps faut-il pour qu’une bouteille en plastique se décompose ?",
+        options: ["10 ans", "50 ans", "100 ans", "450 ans"],
+        answer: 3
+      },
+      {
+        question: "Quel animal est le plus souvent victime de la pollution plastique ?",
+        options: ["Les lions de mer", "Les oiseaux marins", "Les ours polaires", "Les dauphins"],
+        answer: 1
+      },
+      {
+        question: "Quelle action individuelle aide le plus à réduire la pollution plastique ?",
+        options: ["Recycler", "Utiliser des sacs en coton", "Brûler les déchets", "Jeter dans les égouts"],
+        answer: 1
+      },
+      {
+        question: "Quel pays est un des plus gros producteurs de déchets plastiques ?",
+        options: ["France", "Brésil", "Chine", "Norvège"],
+        answer: 2
+      },
+      {
+        question: "Quelle matière remplace de plus en plus le plastique ?",
+        options: ["Verre", "Aluminium", "Bambou", "Carton"],
+        answer: 2
+      },
+      {
+        question: "Quel est le principal danger du microplastique ?",
+        options: ["Il est recyclable", "Il est visible", "Il est ingéré par les animaux", "Il flotte à la surface"],
+        answer: 2
+      },
+      {
+        question: "Quelle habitude réduit le plus l’usage du plastique ?",
+        options: ["Acheter en vrac", "Boire en canette", "Utiliser un sac plastique neuf", "Utiliser des gobelets jetables"],
+        answer: 0
+      },
+      {
+        question: "Quel slogan est souvent utilisé dans la lutte contre le plastique ?",
+        options: ["Plastique c’est fantastique !", "Zéro déchet", "Polluer pour mieux régner", "Un sac pour la vie"],
+        answer: 1
+      }
+    ];
+
+    const quizContainer = document.getElementById('quiz');
+
+    quizData.forEach((q, index) => {
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'question';
+      questionDiv.innerHTML = `<h3>Question ${index + 1} : ${q.question}</h3>`;
+
+      const answersDiv = document.createElement('div');
+      answersDiv.className = 'answers';
+
+      q.options.forEach((option, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.addEventListener('click', () => {
+          if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) return;
+          if (i === q.answer) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('incorrect');
+            answersDiv.children[q.answer].classList.add('correct');
+          }
+        });
+        answersDiv.appendChild(btn);
+      });
+
+      questionDiv.appendChild(answersDiv);
+      quizContainer.appendChild(questionDiv);
+    });
+  </script>
+</body>
+</html>
